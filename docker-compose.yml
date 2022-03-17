@@ -1,0 +1,32 @@
+version: "3.1"
+services:
+  cc-producer:
+    build: ./microservice-1/
+    ports:
+      - 3000:3000
+    environment:
+      - QUEUE_NAME=my-queue
+      - AMQP_HOST=rabbitmq-container
+    depends_on:
+      - rabbitmq-container
+    restart: on-failure
+  cc-consumer:
+    build: ./microservice-3/
+    environment:
+      - QUEUE_NAME=my-queue
+      - AMQP_HOST=rabbitmq-container
+    depends_on:
+      - rabbitmq-container
+
+    restart: on-failure
+    
+  rabbitmq-container:
+    image: rabbitmq:3-management
+    hostname: rabbitmq-container
+    ports:
+      - 5673:5673
+      - 5672:5672
+      - 15672:15672
+
+    restart: on-failure
+

@@ -6,8 +6,10 @@ app.use(bodyParser.json())
 
 var amqp = require('amqplib/callback_api');
 
-const url = 'amqp://localhost';
-const queue = 'my-queue';
+console.log(process.env.AMQP_HOST)
+
+const url = `amqp://rabbitmq-container`;
+const queue = process.env.QUEUE_NAME;
 
 let channel = null;
 amqp.connect(url, function (err, conn) {
