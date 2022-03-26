@@ -1,0 +1,13 @@
+version: "3.1"
+services:
+  cc-consumer-new:
+    build: .
+    environment:
+      - QUEUE_NAME=${QUEUE_NAME}
+      - AMQP_HOST=${AMQP_HOST}
+      - CONSUMER_NAME=${CONSUMER_NAME}
+    restart: on-failure
+networks:
+  default:
+    external:
+      name: cc_default

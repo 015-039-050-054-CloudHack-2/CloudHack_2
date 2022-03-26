@@ -1,4 +1,5 @@
 from email import message
+from email.quoprimime import body_check
 from urllib import response
 from wsgiref import headers
 import pika
@@ -10,13 +11,28 @@ import pika
 import os
 import ast 
 import time as t
+import json
 host = 'rabbitmq-container'
 queue = os.environ.get('QUEUE_NAME')
 def register_as_consumer():
-    url="http://172.25.0.101:3000/"
+    url="http://cc-producer:3000/new_ride_matching_consumer"
     headers={'User-Agent':'Mozilla/5.0'}
-    response=requests.get(url)
-    print(response.content)
+    b={
+        "consumer_id":"a",
+        "consumer_ip":"a",
+        "onsumer_name":"a",
+        "request_ip":"s"
+    }
+    s1 = requests.post(
+    url, 
+    headers={"content-type":"application/json"},
+    data=json.dumps(b))
+    # t=json.dumps(b)
+    # print(t)
+    # response=requests.post(url,params=b)
+    # r=requests.post(url,params=t)
+    # print(response.content)
+    print(s1.content)
     return None
 def on_message(ch, method, properties, body):
     message = body.decode('UTF-8')
@@ -38,10 +54,12 @@ def main():
 
     # print('Subscribed to ' + queue + ', waiting for messages...')
     # channel.start_consuming()
+    print(os.environ)
     print(socket.gethostbyname(socket.gethostname()))
-    print("registering will begin")
+    # print("registering will begin")
     register_as_consumer()
-    print("registering has ended")
+    # print("registering has ended")
+
 
 
 
