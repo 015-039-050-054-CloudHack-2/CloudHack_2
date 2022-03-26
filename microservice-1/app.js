@@ -38,9 +38,18 @@ process.on('exit', code => {
 
 app.post("/new_ride_matching_consumer",(req,res)=>{
 
-})
+})  
 app.listen(3000,()=>{
     console.log("[+] Server started at 3000")
 })
 
+
+// app.get("/",(req,res)=>{
+//   console.log("api   was hit")
+//     res.send("hello")
+// })
+
+// app.listen(3000,()=>{
+//     console.log("[+] Server started at 3000")
+// })
 
