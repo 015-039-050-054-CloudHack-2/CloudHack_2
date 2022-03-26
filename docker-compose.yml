@@ -19,6 +19,15 @@ services:
       - rabbitmq-container
 
     restart: on-failure
+
+  cc-database:
+    build: ./microservice-2/
+    environment:
+      - QUEUE_NAME=data-queue
+      - AMQP_HOST=rabbitmq-container
+    depends_on:
+      - rabbitmq-container
+    restart: on-failure
     
   rabbitmq-container:
     image: rabbitmq:3-management
