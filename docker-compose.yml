@@ -1,16 +1,13 @@
 version: "3.1"
 services:
-  # rabbitmq-container:
-  #   image: rabbitmq:3-management
-  #   hostname: rabbitmq-container
-  #   ports:
-  #     - 5673:5673
-  #     - 5672:5672
-  #     - 15672:15672
-  #   restart: on-failure
-    # networks:
-    #     mynet:
-    #       ipv4_address: 172.25.0.103
+  rabbitmq-container:
+    image: rabbitmq:3-management
+    hostname: rabbitmq-container
+    ports:
+      - 5673:5673
+      - 5672:5672
+      - 15672:15672
+    restart: on-failure
   cc-producer:
       hostname: cc-producer
       build: ./microservice-1/
@@ -19,8 +16,8 @@ services:
       environment:
       - QUEUE_NAME=${QUEUE_NAME}
       - AMQP_HOST=${AMQP_HOST}
-      # depends_on:
-      #   - rabbitmq-container
+      depends_on:
+        - rabbitmq-container
       restart: on-failure
   cc-consumer:
     build: ./microservice-3/
@@ -28,18 +25,6 @@ services:
       - QUEUE_NAME=${QUEUE_NAME}
       - AMQP_HOST=${AMQP_HOST}
       - CONSUMER_NAME=${CONSUMER_NAME}
-      - SERVER_IP=${PRODUCER_IP}
     depends_on:
         - cc-producer
     restart: on-failure
-    # networks:
-    #     mynet:
-    #       ipv4_address: ${CONSUMER_IP}
-  
-
-# networks:
-#   mynet:
-#     driver: bridge
-#     ipam:
-#       config:
-#       - subnet: 172.25.0.0/24
