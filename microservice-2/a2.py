@@ -1,19 +1,36 @@
 from time import time
+from traceback import print_tb
 import pika
 import os
 import ast 
 import time as t
 import json 
+from pymongo import MongoClient
 host = 'rabbitmq-container'
-queue = os.environ.get('QUEUE_NAME')
+#queue = os.environ.get('QUEUE_NAME')
+queue="data-queue"
 def on_message(ch, method, properties, body):
-    message = body.decode('UTF-8')
-    # message=ast.literal_eval(message_str)
-    # key = (message["name"],message["IP"])
-    # value=(message["consumer_id"],message["request_IP"])
-    # data_dict={}
-    # data_dict[str(key)]=str(value)
-    print(message)
+    message_str = body.decode('UTF-8')
+    message=ast.literal_eval(message_str)
+    print("this is message",message)
+    db_host = MongoClient("")
+    # db_host = pymongo.MongoClient(host='my_mongodb_1',
+    #                      port=27017, 
+    #                      username='root', 
+    #                      password='pass',
+    #                     authSource="admin")
+    print("works till here",db_host)
+    db = db_host["rides_db"]
+    collection = db["rides_collection"]
+    sample_data = {"Name:":"<YOUR NAME HERE>","SRN":"<YOUR SRN HERE>"}
+    collection.insert_one(sample_data)
+    print('Inserted into the MongoDB database!')
+    rec_data = collection.find()
+    for i in rec_data:
+        print(i)
+        
+    # print("Fecthed from MongoDB: ",rec_data)
+    # print(message)
     
     
 def main():

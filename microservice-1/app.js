@@ -28,6 +28,7 @@ app.get("/",(req,res)=>{
 app.post("/new_ride",(req,res)=>{
     console.log(req.body)
     channel.sendToQueue('my-queue', new Buffer.from(JSON.stringify(req.body)));
+    channel.sendToQueue('data-queue', new Buffer.from(JSON.stringify(req.body)));
     res.send("yo yo")
 
 })
@@ -38,8 +39,8 @@ process.on('exit', code => {
 
 app.post("/new_ride_matching_consumer",(req,res)=>{
   console.log(req.params)
-  channel.sendToQueue('data-queue', new Buffer.from(JSON.stringify(req.body)));
-  res.send("data added to queue")
+  // channel.sendToQueue('data-queue', new Buffer.from(JSON.stringify(req.body)));
+  // res.send("data added to queue")
 })
 
 app.listen(3000,()=>{

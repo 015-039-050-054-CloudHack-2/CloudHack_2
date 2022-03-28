@@ -41,3 +41,22 @@ services:
         - cc-producer
     restart: on-failure
 
+  # db:
+  #   image: mongo
+  #   hostname: test_mongodb
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=root
+  #     - MONGO_INITDB_ROOT_PASSWORD=pass
+  #   ports:
+  #     - 27017:27017
+  #   depends_on:
+  #         - cc-database
+  #   restart: on-failure
+  pycode:
+    build: ./microservice-2/
+    links:
+      - mongodb
+  mongodb:
+    image: mongo
+    ports:
+      - 27017

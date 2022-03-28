@@ -1,0 +1,18 @@
+version: "3.1"
+services:
+  py-mongo:
+    build:
+      context: ${PWD}
+    volumes:
+      - $PWD/mongo-data:/data/db
+      - $PWD/mongo-app:/var/www/html
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=1234
+    restart: on-failure
+networks:
+  default:
+    external:
+      name: cc_default
