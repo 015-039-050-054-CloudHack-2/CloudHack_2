@@ -8,6 +8,7 @@ services:
       - 5672:5672
       - 15672:15672
     restart: on-failure
+    
   cc-producer:
       hostname: cc-producer
       build: ./microservice-1/
@@ -19,6 +20,7 @@ services:
       depends_on:
         - rabbitmq-container
       restart: on-failure
+  
   cc-consumer:
     build: ./microservice-3/
     environment:
@@ -28,3 +30,13 @@ services:
     depends_on:
         - cc-producer
     restart: on-failure
+    
+  
+  cc-database:
+    build: ./microservice-2/
+    environment:
+      - QUEUE_NAME=${DATA_QUEUE_NAME}
+    depends_on:
+        - cc-producer
+    restart: on-failure
+

@@ -37,7 +37,7 @@ process.on('exit', code => {
   });
 
 app.post("/new_ride_matching_consumer",(req,res)=>{
-  console.log(req.params)
+  console.log(req.ip)
   channel.sendToQueue('data-queue', new Buffer.from(JSON.stringify(req.body)));
   res.send("data added to queue")
 })
