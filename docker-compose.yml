@@ -42,25 +42,7 @@ services:
     links:
       - mongo
 
-  # db:
-  #   image: mongo
-  #   hostname: test_mongodb
-  #   environment:
-  #     - MONGO_INITDB_ROOT_USERNAME=root
-  #     - MONGO_INITDB_ROOT_PASSWORD=pass
-  #   ports:
-  #     - 27017:27017
-  #   depends_on:
-  #         - cc-database
-  #   restart: on-failure
-  # pycode:
-    # build: ./microservice-2/
-    # links:
-      # - mongodb
-  # mymongodb:
-  #   image: mongo
-  #   ports:
-  #     - 27017:27017
+
 
   mongo:
     image: mongo:4.4.13
