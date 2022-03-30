@@ -8,6 +8,8 @@ services:
       - 5672:5672
       - 15672:15672
     restart: on-failure
+    logging:
+      driver: none
     
   cc-producer:
       hostname: cc-producer
@@ -21,15 +23,15 @@ services:
         - rabbitmq-container
       restart: on-failure
   
-  cc-consumer:
-    build: ./microservice-3/
-    environment:
-      - QUEUE_NAME=${QUEUE_NAME}
-      - AMQP_HOST=${AMQP_HOST}
-      - CONSUMER_NAME=${CONSUMER_NAME}
-    depends_on:
-        - cc-producer
-    restart: on-failure
+  # cc-consumer:
+  #   build: ./microservice-3/
+  #   environment:
+  #     - QUEUE_NAME=${QUEUE_NAME}
+  #     - AMQP_HOST=${AMQP_HOST}
+  #     - CONSUMER_NAME=${CONSUMER_NAME}
+  #   depends_on:
+  #       - cc-producer
+  #   restart: on-failure
     
   
   cc-database:
@@ -50,3 +52,5 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    logging:
+      driver: none

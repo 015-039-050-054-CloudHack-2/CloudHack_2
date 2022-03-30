@@ -6,26 +6,31 @@ import ast
 import time as t
 import json
 import random
+import socket
 
 host = 'rabbitmq-container'
 queue = os.environ.get('QUEUE_NAME')
 
 consumer_arrays={}
+consumer_ip=socket.gethostbyname(socket.gethostname())
+server_ip=socket.gethostbyname('cc-producer')
+print("----------------c",consumer_ip)
+print("----------------s",server_ip)
 
 def register_as_consumer():
-    if((os.environ.get('CONSUMER_NAME'),"172.25.0.102") not in consumer_arrays.keys()):
+    if((os.environ.get('CONSUMER_NAME'),consumer_ip) not in consumer_arrays.keys()):
         url="http://cc-producer:3000/new_ride_matching_consumer"
         b={
             "consumer_id":11,
-            "consumer_ip":"172.25.0.102",
+            "consumer_ip":consumer_ip,
             "consumer_name":os.environ.get('CONSUMER_NAME'),
-            "request_ip": "172.25.0.101"
+            "request_ip": server_ip
         }
         s1 = requests.post(
             url, 
             headers={"content-type":"application/json"},
             data=json.dumps(b))
-        key=(os.environ.get('CONSUMER_NAME'),"172.25.0.102")
+        key=(os.environ.get('CONSUMER_NAME'),consumer_ip)
         value=[11,"172.25.0.101"]
         consumer_arrays[key]=value
         print(consumer_arrays)

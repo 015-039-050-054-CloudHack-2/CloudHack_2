@@ -27,6 +27,7 @@ def on_message(ch, method, properties, body):
         
     
 def main():
+    print("in database ")
     connection_params = pika.ConnectionParameters(host=host)
     connection = pika.BlockingConnection(connection_params)
     channel = connection.channel()
